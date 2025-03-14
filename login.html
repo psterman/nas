@@ -1,0 +1,699 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - Web NAS</title>
+    <link rel="stylesheet" href="css/login.css">
+    <!-- 添加内联样式，以防CSS文件未正确加载 -->
+    <style>
+        /* 基本样式，确保页面至少有一些基本格式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 30px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-toggle {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .login-toggle button {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-toggle button.active {
+            color: #4a6cf7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        /* 默认隐藏注册表单 */
+        .register-form {
+            display: none;
+        }
+
+        /* 显示登录表单 */
+        .login-container.show-login .login-form {
+            display: block;
+        }
+
+        .login-container.show-login .register-form {
+            display: none;
+        }
+
+        /* 显示注册表单 */
+        .login-container.show-register .login-form {
+            display: none;
+        }
+
+        .login-container.show-register .register-form {
+            display: block;
+        }
+
+        /* 调试信息样式 */
+        #debug-info {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            max-height: 200px;
+            overflow: auto;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="login-container show-login">
+            <div class="login-header">
+                <h1>Web NAS</h1>
+                <p>安全存储，随时访问</p>
+            </div>
+
+            <div class="login-toggle">
+                <button id="toggle-login" class="active">登录</button>
+                <button id="toggle-register">注册</button>
+            </div>
+
+            <div class="login-form-container">
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="login-username">用户名</label>
+                        <div class="input-with-icon">
+                            <span class="icon user-icon"></span>
+                            <input type="text" id="login-username" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">密码</label>
+                        <div class="input-with-icon">
+                            <span class="icon password-icon"></span>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <label for="remember-me">记住我</label>
+                        </div>
+                        <a href="#" class="forgot-password">忘记密码?</a>
+                    </div>
+                    <div id="login-error" class="error-message"></div>
+                    <button type="submit" class="btn btn-primary" id="login-button">登录</button>
+                </form>
+
+                <form id="register-form" class="register-form">
+                    <div class="form-group">
+                        <label for="register-username">用户名</label>
+                        <div class="input-with-icon">
+                            <span class="icon user-icon"></span>
+                            <input type="text" id="register-username" name="username" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">密码</label>
+                        <div class="input-with-icon">
+                            <span class="icon password-icon"></span>
+                            <input type="password" id="register-password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">确认密码</label>
+                        <div class="input-with-icon">
+                            <span class="icon password-icon"></span>
+                            <input type="password" id="register-confirm-password" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">电子邮箱</label>
+                        <div class="input-with-icon">
+                            <span class="icon email-icon"></span>
+                            <input type="email" id="register-email" name="email" required>
+                        </div>
+                    </div>
+                    <div id="register-error" class="error-message"></div>
+                    <div id="register-success" class="success-message"></div>
+                    <button type="submit" class="btn btn-primary" id="register-button">注册</button>
+        </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 调试信息区域 -->
+    <div id="debug-info"></div>
+
+    <!-- 内联脚本用于调试 -->
+    <script>
+        // 创建调试日志函数
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
+            console.log(message);
+        }
+
+        // 检测当前环境并返回适当的API基础URL
+        function getApiBaseUrl() {
+            const currentUrl = window.location.href;
+            debugLog(`当前页面URL: ${currentUrl}`);
+
+            // 如果当前在localhost:3000，使用相对路径
+            if (currentUrl.includes('localhost:3000')) {
+                debugLog('检测到Node.js服务器环境');
+                return '';
+            }
+
+            // 如果在127.0.0.1:5500 (VS Code Live Server)，使用主服务器
+            if (currentUrl.includes('127.0.0.1:5500') || currentUrl.includes('localhost:5500')) {
+                debugLog('检测到Live Server环境，API请求将转发到主服务器');
+                return 'http://localhost:3000';
+            }
+
+            // 默认情况下使用相对路径
+            debugLog('使用默认API路径');
+            return '';
+        }
+
+        // 获取API基础URL
+        const API_BASE_URL = getApiBaseUrl();
+        debugLog(`API基础URL: ${API_BASE_URL || '(相对路径)'}`);
+
+        // 检测主服务器是否可用
+        function checkMainServer() {
+            if (API_BASE_URL.includes('3000')) {
+                debugLog('尝试连接主服务器...');
+
+                fetch(`${API_BASE_URL}/api/test`)
+                    .then(response => response.json())
+                    .then(data => {
+                        debugLog(`主服务器测试成功: ${JSON.stringify(data)}`);
+                    })
+                    .catch(error => {
+                        debugLog(`主服务器测试失败: ${error.message}`);
+                        const loginError = document.getElementById('login-error');
+                        const registerError = document.getElementById('register-error');
+
+                        const errorMessage = '主服务器未启动，请先运行 npm run web';
+
+                        if (loginError) loginError.textContent = errorMessage;
+                        if (registerError) registerError.textContent = errorMessage;
+
+                        const loginButton = document.getElementById('login-button');
+                        const registerButton = document.getElementById('register-button');
+
+                        if (loginButton) loginButton.disabled = true;
+                        if (registerButton) registerButton.disabled = true;
+                    });
+            }
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('DOMContentLoaded', function () {
+            debugLog('页面加载完成');
+
+            // 检测主服务器
+            checkMainServer();
+
+            // 检查DOM元素
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginButton = document.getElementById('login-button');
+            const registerButton = document.getElementById('register-button');
+
+            debugLog(`登录表单: ${loginForm ? '已找到' : '未找到'}`);
+            debugLog(`注册表单: ${registerForm ? '已找到' : '未找到'}`);
+            debugLog(`登录按钮: ${loginButton ? '已找到' : '未找到'}`);
+            debugLog(`注册按钮: ${registerButton ? '已找到' : '未找到'}`);
+
+            // 直接绑定登录按钮点击事件
+            if (loginButton) {
+                loginButton.addEventListener('click', function (e) {
+                    debugLog('登录按钮被点击');
+                });
+            }
+
+            // 直接绑定登录表单提交事件
+            if (loginForm) {
+                loginForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    debugLog('登录表单提交');
+
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
+                    debugLog(`用户名: ${username}, 密码长度: ${password.length}`);
+
+                    // 禁用登录按钮，防止重复提交
+                    const loginButton = document.getElementById('login-button');
+                    if (loginButton) {
+                        loginButton.disabled = true;
+                        loginButton.textContent = '登录中...';
+                    }
+
+                    // 直接使用fetch API发送登录请求，不依赖auth对象
+                    (async function () {
+                        try {
+                            const remember = document.getElementById('remember-me').checked;
+                            const loginError = document.getElementById('login-error');
+
+                            // 构建完整的API URL - 始终使用/api/login路径
+                            const url = `${API_BASE_URL}/api/login`;
+                            debugLog(`登录请求URL: ${url}`);
+
+                            const startTime = new Date().getTime();
+                            const response = await fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ username, password, remember })
+                            });
+                            const endTime = new Date().getTime();
+                            debugLog(`登录请求耗时: ${endTime - startTime}ms`);
+
+                            debugLog(`登录响应状态: ${response.status}`);
+                            debugLog(`登录响应头: ${JSON.stringify(Array.from(response.headers.entries()))}`);
+
+                            const text = await response.text();
+                            debugLog(`登录响应文本: ${text}`);
+
+                            let data;
+                            try {
+                                if (text.trim()) {
+                                    data = JSON.parse(text);
+                                    debugLog(`登录响应数据: ${JSON.stringify(data)}`);
+                                } else {
+                                    debugLog('登录响应为空');
+                                    data = { success: false, error: '服务器返回空响应' };
+                                }
+                            } catch (e) {
+                                debugLog(`解析响应失败: ${e.message}`);
+                                data = { success: false, error: '服务器响应格式错误' };
+                            }
+
+                            if (response.ok && data.success) {
+                                debugLog('登录成功，准备跳转到首页');
+
+                                // 如果有token，存储它
+                                if (data.token) {
+                                    localStorage.setItem('token', data.token);
+                                    debugLog(`已保存认证令牌: ${data.token.substring(0, 20)}...`);
+
+                                    // 同时保存到sessionStorage，以防某些页面使用sessionStorage
+                                    sessionStorage.setItem('token', data.token);
+                                    debugLog('令牌同时保存到sessionStorage');
+                                } else {
+                                    debugLog('警告: 服务器返回的响应中没有token');
+                                }
+
+                                // 如果有用户信息，存储它
+                                if (data.user) {
+                                    localStorage.setItem('user', JSON.stringify(data.user));
+                                    debugLog(`已保存用户信息: ${data.user.username}, 角色: ${data.user.role || '未指定'}`);
+
+                                    // 同时保存到sessionStorage
+                                    sessionStorage.setItem('user', JSON.stringify(data.user));
+                                } else {
+                                    debugLog('警告: 服务器返回的响应中没有用户信息');
+                                }
+
+                                // 显示成功消息
+                                if (loginError) {
+                                    loginError.textContent = '';
+                                }
+
+                                const successMessage = document.createElement('div');
+                                successMessage.className = 'success-message';
+                                successMessage.textContent = '登录成功！正在跳转...';
+                                loginForm.appendChild(successMessage);
+
+                                // 延迟跳转，给用户一些时间看到成功消息
+                                setTimeout(() => {
+                                    // 构建首页URL - 确保指向index.html
+                                    let homeUrl;
+                                    if (API_BASE_URL) {
+                                        // 如果是Live Server环境，使用相对路径
+                                        if (window.location.href.includes('127.0.0.1:5500') ||
+                                            window.location.href.includes('localhost:5500')) {
+                                            homeUrl = 'index.html';
+                                        } else {
+                                            // 否则使用主服务器的路径
+                                            homeUrl = `${API_BASE_URL}/index.html`;
+                                        }
+                                    } else {
+                                        homeUrl = '/index.html';
+                                    }
+                                    debugLog(`跳转到: ${homeUrl}`);
+
+                                    // 添加token作为URL参数，以防首页需要它
+                                    const urlWithToken = `${homeUrl}?token=${encodeURIComponent(data.token)}`;
+                                    debugLog(`带token的URL: ${urlWithToken.substring(0, 30)}...`);
+
+                                    // 跳转到首页
+                                    window.location.href = urlWithToken;
+                                }, 1500);
+                            } else {
+                                debugLog(`登录失败: ${data.error || '未知错误'}`);
+                                if (loginError) {
+                                    loginError.textContent = data.error || '登录失败，请检查用户名和密码';
+                                }
+                            }
+                        } catch (error) {
+                            debugLog(`登录过程中发生错误: ${error.message}`);
+                            const loginError = document.getElementById('login-error');
+                            if (loginError) {
+                                loginError.textContent = `登录过程中发生错误: ${error.message}`;
+                            }
+                        } finally {
+                            // 恢复登录按钮
+                            const loginButton = document.getElementById('login-button');
+                            if (loginButton) {
+                                loginButton.disabled = false;
+                                loginButton.textContent = '登录';
+                            }
+                        }
+                    })();
+                });
+            }
+
+            // 添加注册表单提交事件处理
+            if (registerForm) {
+                registerForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    debugLog('注册表单提交');
+
+                    // 禁用注册按钮，防止重复提交
+                    const registerButton = document.getElementById('register-button');
+                    if (registerButton) {
+                        registerButton.disabled = true;
+                        registerButton.textContent = '注册中...';
+                    }
+
+                    const username = document.getElementById('register-username').value;
+                    const password = document.getElementById('register-password').value;
+                    const confirmPassword = document.getElementById('register-confirm-password').value;
+                    const email = document.getElementById('register-email').value;
+
+                    debugLog(`注册信息: 用户名=${username}, 密码长度=${password.length}, 邮箱=${email}`);
+
+                    // 验证密码是否匹配
+                    if (password !== confirmPassword) {
+                        debugLog('注册失败: 两次输入的密码不匹配');
+                        const registerError = document.getElementById('register-error');
+                        if (registerError) {
+                            registerError.textContent = '两次输入的密码不匹配';
+                        }
+
+                        // 恢复注册按钮
+                        if (registerButton) {
+                            registerButton.disabled = false;
+                            registerButton.textContent = '注册';
+                        }
+                        return;
+                    }
+
+                    // 验证密码长度
+                    if (password.length < 6) {
+                        debugLog('注册失败: 密码长度不足');
+                        const registerError = document.getElementById('register-error');
+                        if (registerError) {
+                            registerError.textContent = '密码长度必须至少为6个字符';
+                        }
+
+                        // 恢复注册按钮
+                        if (registerButton) {
+                            registerButton.disabled = false;
+                            registerButton.textContent = '注册';
+                        }
+                        return;
+                    }
+
+                    // 验证邮箱格式
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        debugLog('注册失败: 邮箱格式不正确');
+                        const registerError = document.getElementById('register-error');
+                        if (registerError) {
+                            registerError.textContent = '请输入有效的邮箱地址';
+                        }
+
+                        // 恢复注册按钮
+                        if (registerButton) {
+                            registerButton.disabled = false;
+                            registerButton.textContent = '注册';
+                        }
+                        return;
+                    }
+
+                    // 直接使用fetch API发送注册请求
+                    debugLog('准备发送注册请求');
+
+                    (async function () {
+                        try {
+                            // 构建完整的API URL - 始终使用/api/register路径
+                            const url = `${API_BASE_URL}/api/register`;
+                            debugLog(`注册请求URL: ${url}`);
+
+                            const startTime = new Date().getTime();
+                            const response = await fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ username, password, email })
+                            });
+                            const endTime = new Date().getTime();
+                            const requestTime = endTime - startTime;
+
+                            debugLog(`注册请求耗时: ${requestTime}ms`);
+                            debugLog(`注册响应状态: ${response.status}`);
+                            debugLog(`注册响应头: ${JSON.stringify(Array.from(response.headers.entries()))}`);
+
+                            const text = await response.text();
+                            debugLog(`注册响应文本: ${text}`);
+
+                            let data;
+                            try {
+                                if (text.trim()) {
+                                    data = JSON.parse(text);
+                                    debugLog(`注册响应数据: ${JSON.stringify(data)}`);
+                                } else {
+                                    debugLog('注册响应为空');
+                                    data = { success: false, error: '服务器返回空响应' };
+                                }
+                            } catch (e) {
+                                debugLog(`解析响应失败: ${e.message}`);
+                                data = { success: false, error: '服务器响应格式错误' };
+                            }
+
+                            if (response.ok && data.success) {
+                                debugLog('注册成功');
+
+                                // 显示成功消息
+                                const registerSuccess = document.getElementById('register-success');
+                                const registerError = document.getElementById('register-error');
+
+                                if (registerSuccess) {
+                                    registerSuccess.textContent = data.message || '注册成功，请登录';
+                                }
+
+                                if (registerError) {
+                                    registerError.textContent = '';
+                                }
+
+                                // 清空表单
+                                registerForm.reset();
+
+                                // 切换到登录表单
+                                setTimeout(() => {
+                                    document.getElementById('toggle-login').click();
+
+                                    // 自动填充用户名
+                                    const loginUsername = document.getElementById('login-username');
+                                    if (loginUsername) {
+                                        loginUsername.value = username;
+                                    }
+
+                                    // 提示用户登录
+                                    const loginError = document.getElementById('login-error');
+                                    if (loginError) {
+                                        loginError.textContent = '';
+                                    }
+                                }, 2000);
+                            } else {
+                                debugLog(`注册失败: ${data.error || '未知错误'}`);
+
+                                const registerError = document.getElementById('register-error');
+                                const registerSuccess = document.getElementById('register-success');
+
+                                if (registerError) {
+                                    registerError.textContent = data.error || '注册失败，请稍后重试';
+                                }
+
+                                if (registerSuccess) {
+                                    registerSuccess.textContent = '';
+                                }
+                            }
+                        } catch (error) {
+                            debugLog(`注册过程中发生错误: ${error.message}`);
+
+                            const registerError = document.getElementById('register-error');
+                            if (registerError) {
+                                registerError.textContent = `注册过程中发生错误: ${error.message}`;
+                            }
+                        } finally {
+                            // 恢复注册按钮
+                            if (registerButton) {
+                                registerButton.disabled = false;
+                                registerButton.textContent = '注册';
+                            }
+                        }
+                    })();
+                });
+            }
+
+            // 添加切换登录/注册表单的事件处理
+            const toggleLogin = document.getElementById('toggle-login');
+            const toggleRegister = document.getElementById('toggle-register');
+            const loginContainer = document.querySelector('.login-container');
+
+            if (toggleLogin && toggleRegister && loginContainer) {
+                toggleLogin.addEventListener('click', function () {
+                    debugLog('切换到登录表单');
+                    loginContainer.classList.remove('show-register');
+                    loginContainer.classList.add('show-login');
+                    toggleLogin.classList.add('active');
+                    toggleRegister.classList.remove('active');
+                });
+
+                toggleRegister.addEventListener('click', function () {
+                    debugLog('切换到注册表单');
+                    loginContainer.classList.remove('show-login');
+                    loginContainer.classList.add('show-register');
+                    toggleRegister.classList.add('active');
+                    toggleLogin.classList.remove('active');
+                });
+            }
+        });
+
+        // 检查脚本加载
+        window.addEventListener('load', function () {
+            debugLog('所有资源加载完成');
+
+            // 检查auth对象是否存在
+            if (typeof auth !== 'undefined') {
+                debugLog('auth对象已加载');
+            } else {
+                debugLog('警告: auth对象未加载，但这不会影响直接注册功能');
+            }
+
+            // 检查CSS文件是否加载
+            const styleSheets = document.styleSheets;
+            let cssLoaded = false;
+
+            for (let i = 0; i < styleSheets.length; i++) {
+                if (styleSheets[i].href && styleSheets[i].href.includes('login.css')) {
+                    cssLoaded = true;
+                    debugLog(`CSS文件已加载: ${styleSheets[i].href}`);
+                    break;
+                }
+            }
+
+            if (!cssLoaded) {
+                debugLog('警告: login.css文件未加载，但内联样式已提供基本格式');
+            }
+        });
+    </script>
+
+    <!-- 加载外部脚本 -->
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

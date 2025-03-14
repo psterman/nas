@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - Web NAS</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4a6cf7;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .debug-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .error-message {
+            color: #dc3545;
+            padding: 10px;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .user-profile {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .features-section {
+            margin-bottom: 30px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .feature-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .feature-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .quick-access {
+            margin-top: 30px;
+        }
+
+        .file-browser-preview {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .file-browser-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        .upload-btn {
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .file-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .file-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .file-name {
+            flex-grow: 1;
+        }
+
+        .file-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Web NAS</div>
+            <div class="user-info">
+                <span class="user-name" id="username">加载中...</span>
+                <button class="logout-btn" id="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <h1>Web NAS 首页</h1>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            <div class="welcome-message" id="welcome-message">正在验证登录状态...</div>
+            <div id="content-area"></div>
+            <div class="debug-info" id="debug-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // 调试日志函数
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
+            console.log(message);
+        }
+
+        // 检测当前环境并返回适当的API基础URL
+        function getApiBaseUrl() {
+            const currentUrl = window.location.href;
+            debugLog(`当前页面URL: ${currentUrl}`);
+
+            // 如果当前在localhost:3000，使用相对路径
+            if (currentUrl.includes('localhost:3000')) {
+                debugLog('检测到Node.js服务器环境');
+                return '';
+            }
+
+            // 如果在127.0.0.1:5500 (VS Code Live Server)，使用主服务器
+            if (currentUrl.includes('127.0.0.1:5500') || currentUrl.includes('localhost:5500')) {
+                debugLog('检测到Live Server环境，API请求将转发到主服务器');
+                return 'http://localhost:3000';
+            }
+
+            // 默认情况下使用相对路径
+            debugLog('使用默认API路径');
+            return '';
+        }
+
+        // 获取API基础URL
+        const API_BASE_URL = getApiBaseUrl();
+        debugLog(`API基础URL: ${API_BASE_URL || '(相对路径)'}`);
+
+        // 获取URL参数
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 从localStorage、sessionStorage或URL参数获取token
+        function getToken() {
+            // 首先尝试从URL参数获取
+            const tokenFromUrl = getUrlParameter('token');
+            if (tokenFromUrl) {
+                debugLog('从URL参数获取到token');
+                // 保存到localStorage和sessionStorage以备后用
+                localStorage.setItem('token', tokenFromUrl);
+                sessionStorage.setItem('token', tokenFromUrl);
+                return tokenFromUrl;
+            }
+
+            // 然后尝试从localStorage获取
+            const tokenFromLocalStorage = localStorage.getItem('token');
+            if (tokenFromLocalStorage) {
+                debugLog('从localStorage获取到token');
+                return tokenFromLocalStorage;
+            }
+
+            // 最后尝试从sessionStorage获取
+            const tokenFromSessionStorage = sessionStorage.getItem('token');
+            if (tokenFromSessionStorage) {
+                debugLog('从sessionStorage获取到token');
+                return tokenFromSessionStorage;
+            }
+
+            debugLog('未找到token');
+            return null;
+        }
+
+        // 获取用户信息
+        function getUserInfo() {
+            // 首先尝试从localStorage获取
+            const userFromLocalStorage = localStorage.getItem('user');
+            if (userFromLocalStorage) {
+                try {
+                    const user = JSON.parse(userFromLocalStorage);
+                    debugLog(`从localStorage获取到用户信息: ${user.username}`);
+                    return user;
+                } catch (e) {
+                    debugLog(`解析localStorage中的用户信息失败: ${e.message}`);
+                }
+            }
+
+            // 然后尝试从sessionStorage获取
+            const userFromSessionStorage = sessionStorage.getItem('user');
+            if (userFromSessionStorage) {
+                try {
+                    const user = JSON.parse(userFromSessionStorage);
+                    debugLog(`从sessionStorage获取到用户信息: ${user.username}`);
+                    return user;
+                } catch (e) {
+                    debugLog(`解析sessionStorage中的用户信息失败: ${e.message}`);
+                }
+            }
+
+            debugLog('未找到用户信息');
+            return null;
+        }
+
+        // 验证token
+        async function validateToken(token) {
+            try {
+                debugLog('开始验证token...');
+                debugLog('注意: API验证已禁用，仅使用本地解析的token信息');
+
+                // 直接从token中解析用户信息
+                try {
+                    const tokenParts = token.split('.');
+                    if (tokenParts.length === 3) {
+                        const payload = JSON.parse(atob(tokenParts[1]));
+                        debugLog(`从token中解析出用户信息: ${JSON.stringify(payload)}`);
+
+                        // 检查token是否过期
+                        const now = Math.floor(Date.now() / 1000);
+                        if (payload.exp && payload.exp < now) {
+                            debugLog('token已过期');
+                            return {
+                                success: false,
+                                error: 'token已过期'
+                            };
+                        }
+
+                        // 构造用户信息
+                        const userInfo = {
+                            id: payload.id,
+                            username: payload.username,
+                            role: payload.role
+                        };
+
+                        return {
+                            success: true,
+                            user: userInfo
+                        };
+                    }
+                } catch (error) {
+                    debugLog(`解析token失败: ${error.message}`);
+                }
+
+                // 如果本地解析失败，返回错误
+                return {
+                    success: false,
+                    error: 'token无效或格式错误'
+                };
+
+                /* 以下代码已禁用，不再尝试API验证
+                const url = `${API_BASE_URL}/api/validate-token`;
+                debugLog(`验证token请求URL: ${url}`);
+
+                // 添加更多调试信息
+                debugLog(`使用的token: ${token.substring(0, 20)}...`);
+                debugLog(`请求头: Authorization: Bearer ${token.substring(0, 10)}...`);
+
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                debugLog(`验证token响应状态: ${response.status}`);
+
+                // 如果状态码是404，尝试使用备用路径
+                if (response.status === 404) {
+                    debugLog('API路由未找到，尝试使用备用路径');
+                    const backupUrl = `${API_BASE_URL}/api/auth/validate-token`;
+                    debugLog(`备用验证URL: ${backupUrl}`);
+
+                    const backupResponse = await fetch(backupUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    debugLog(`备用验证响应状态: ${backupResponse.status}`);
+
+                    if (backupResponse.ok) {
+                        const backupText = await backupResponse.text();
+                        debugLog(`备用验证响应文本: ${backupText}`);
+
+                        try {
+                            if (backupText.trim()) {
+                                const backupData = JSON.parse(backupText);
+                                debugLog(`备用验证响应数据: ${JSON.stringify(backupData)}`);
+                                return backupData;
+                            }
+                        } catch (e) {
+                            debugLog(`解析备用验证响应失败: ${e.message}`);
+                        }
+                    }
+                }
+
+                const text = await response.text();
+                debugLog(`验证token响应文本: ${text}`);
+
+                let data;
+                try {
+                    if (text.trim()) {
+                        data = JSON.parse(text);
+                        debugLog(`验证token响应数据: ${JSON.stringify(data)}`);
+                    } else {
+                        debugLog('验证token响应为空');
+                        return { success: false, error: '服务器返回空响应' };
+                    }
+                } catch (e) {
+                    debugLog(`解析验证token响应失败: ${e.message}`);
+                    return { success: false, error: '服务器响应格式错误' };
+                }
+
+                return data;
+                */
+            } catch (error) {
+                debugLog(`验证token过程中发生错误: ${error.message}`);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            debugLog('退出登录');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('DOMContentLoaded', async function () {
+            debugLog('页面加载完成');
+
+            // 获取DOM元素
+            const usernameElement = document.getElementById('username');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const contentArea = document.getElementById('content-area');
+            const errorMessage = document.getElementById('error-message');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            // 绑定退出登录按钮事件
+            logoutBtn.addEventListener('click', logout);
+
+            // 获取token
+            const token = getToken();
+            if (!token) {
+                debugLog('未找到token，重定向到登录页面');
+                errorMessage.textContent = '您尚未登录或登录已过期，请重新登录';
+                errorMessage.style.display = 'block';
+                welcomeMessage.textContent = '请登录后访问此页面';
+                usernameElement.textContent = '未登录';
+
+                // 延迟跳转到登录页面
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            // 获取用户信息
+            const user = getUserInfo();
+            if (user) {
+                usernameElement.textContent = user.username;
+                welcomeMessage.textContent = `欢迎回来，${user.username}！`;
+                debugLog(`显示用户信息: ${user.username}`);
+
+                // 直接显示内容，不进行token验证
+                contentArea.innerHTML = `
+                    <h2>您已成功登录</h2>
+                    <p>您现在可以访问Web NAS的所有功能。</p>
+                    
+                    <div class="user-profile">
+                        <h3>用户信息</h3>
+                        <p><strong>用户名:</strong> ${user.username}</p>
+                        <p><strong>角色:</strong> ${user.role || '普通用户'}</p>
+                        <p><strong>邮箱:</strong> ${user.email || '未设置'}</p>
+                    </div>
+                    
+                    <div class="features-section">
+                        <h3>功能导航</h3>
+                        <div class="feature-grid">
+                            <div class="feature-card" id="file-browser">
+                                <div class="feature-icon">📁</div>
+                                <h4>文件浏览器</h4>
+                                <p>浏览、上传和管理您的文件</p>
+                            </div>
+                            <div class="feature-card" id="shared-files">
+                                <div class="feature-icon">🔗</div>
+                                <h4>共享文件</h4>
+                                <p>查看和管理您的共享文件</p>
+                            </div>
+                            <div class="feature-card" id="settings">
+                                <div class="feature-icon">⚙️</div>
+                                <h4>设置</h4>
+                                <p>管理您的账户和偏好设置</p>
+                            </div>
+                            ${user.role === 'admin' ? `
+                            <div class="feature-card" id="admin-panel">
+                                <div class="feature-icon">👑</div>
+                                <h4>管理面板</h4>
+                                <p>管理用户和系统设置</p>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="quick-access">
+                        <h3>最近文件</h3>
+                        <div class="file-browser-preview">
+                            <div class="file-list">
+                                <div class="file-item folder">
+                                    <span class="file-icon">📁</span>
+                                    <span class="file-name">文档</span>
+                                    <span class="file-date">2024-03-14</span>
+                                </div>
+                                <div class="file-item folder">
+                                    <span class="file-icon">📁</span>
+                                    <span class="file-name">图片</span>
+                                    <span class="file-date">2024-03-14</span>
+                                </div>
+                                <div class="file-item folder">
+                                    <span class="file-icon">📁</span>
+                                    <span class="file-name">视频</span>
+                                    <span class="file-date">2024-03-14</span>
+                                </div>
+                                <div class="file-item file">
+                                    <span class="file-icon">📄</span>
+                                    <span class="file-name">README.md</span>
+                                    <span class="file-date">2024-03-14</span>
+            </div>
+                </div>
+            </div>
+        </div>
+                `;
+
+                // 添加样式
+                const style = document.createElement('style');
+                style.textContent = `
+                    .user-profile {
+                        background-color: #f8f9fa;
+                        border-radius: 8px;
+                        padding: 15px;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .features-section {
+                        margin-bottom: 30px;
+                    }
+                    
+                    .feature-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                        gap: 20px;
+                        margin-top: 15px;
+                    }
+                    
+                    .feature-card {
+                        background-color: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        padding: 20px;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: transform 0.2s, box-shadow 0.2s;
+                    }
+                    
+                    .feature-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    }
+                    
+                    .feature-icon {
+                        font-size: 2.5rem;
+                        margin-bottom: 10px;
+                    }
+                    
+                    .feature-card h4 {
+                        margin: 0 0 10px 0;
+                        color: #333;
+                    }
+                    
+                    .feature-card p {
+                        margin: 0;
+                        font-size: 0.9rem;
+                        color: #666;
+                    }
+                    
+                    .quick-access {
+                        margin-top: 30px;
+                    }
+                    
+                    .file-browser-preview {
+                        border: 1px solid #dee2e6;
+                        border-radius: 8px;
+                        overflow: hidden;
+                    }
+                    
+                    .file-list {
+                        max-height: 300px;
+                        overflow-y: auto;
+                    }
+                    
+                    .file-item {
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 15px;
+                        border-bottom: 1px solid #f0f0f0;
+                        cursor: pointer;
+                    }
+                    
+                    .file-item:hover {
+                        background-color: #f8f9fa;
+                    }
+                    
+                    .file-icon {
+                        margin-right: 10px;
+                        font-size: 1.2rem;
+                    }
+                    
+                    .file-name {
+                        flex-grow: 1;
+                    }
+                    
+                    .file-date {
+                        color: #6c757d;
+                        font-size: 0.9rem;
+                    }
+                `;
+                document.head.appendChild(style);
+
+                // 添加功能卡片的点击事件
+                setTimeout(() => {
+                    document.getElementById('file-browser')?.addEventListener('click', function () {
+                        window.location.href = 'file-browser.html';
+                    });
+
+                    document.getElementById('shared-files')?.addEventListener('click', function () {
+                        window.location.href = 'shared-files.html';
+                    });
+
+                    document.getElementById('settings')?.addEventListener('click', function () {
+                        window.location.href = 'settings.html';
+                    });
+
+                    document.getElementById('admin-panel')?.addEventListener('click', function () {
+                        window.location.href = 'admin-panel.html';
+                    });
+
+                    // 为文件项添加点击事件
+                    document.querySelectorAll('.file-item').forEach(item => {
+                        item.addEventListener('click', function () {
+                            const fileName = this.querySelector('.file-name').textContent;
+                            window.location.href = `file-browser.html?folder=${encodeURIComponent(fileName)}`;
+                        });
+                    });
+                }, 100);
+
+                debugLog('跳过token验证，直接使用localStorage中的用户信息');
+                return;
+            }
+
+            // 如果没有用户信息，尝试从token中解析
+            try {
+                debugLog('尝试从token中解析用户信息');
+                // 解析JWT token (不验证签名)
+                const tokenParts = token.split('.');
+                if (tokenParts.length === 3) {
+                    const payload = JSON.parse(atob(tokenParts[1]));
+                    debugLog(`从token中解析出用户信息: ${JSON.stringify(payload)}`);
+
+                    // 检查token是否过期
+                    const now = Math.floor(Date.now() / 1000);
+                    if (payload.exp && payload.exp < now) {
+                        debugLog('token已过期');
+                        errorMessage.textContent = '登录已过期，请重新登录';
+                        errorMessage.style.display = 'block';
+                        welcomeMessage.textContent = '请登录后访问此页面';
+                        usernameElement.textContent = '未登录';
+
+                        // 清除过期的token和用户信息
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        sessionStorage.removeItem('token');
+                        sessionStorage.removeItem('user');
+
+                        // 延迟跳转到登录页面
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 3000);
+                        return;
+                    }
+
+                    // 使用token中的用户信息
+                    usernameElement.textContent = payload.username;
+                    welcomeMessage.textContent = `欢迎回来，${payload.username}！`;
+
+                    // 保存用户信息到localStorage和sessionStorage
+                    const userInfo = {
+                        id: payload.id,
+                        username: payload.username,
+                        role: payload.role
+                    };
+                    localStorage.setItem('user', JSON.stringify(userInfo));
+                    sessionStorage.setItem('user', JSON.stringify(userInfo));
+
+                    // 显示内容
+                    contentArea.innerHTML = `
+                        <h2>您已成功登录</h2>
+                        <p>您现在可以访问Web NAS的所有功能。</p>
+                        <p>用户名: ${payload.username}</p>
+                        <p>角色: ${payload.role || '普通用户'}</p>
+                    `;
+
+                    debugLog('使用token中的用户信息显示内容');
+                    return;
+                }
+            } catch (error) {
+                debugLog(`解析token失败: ${error.message}`);
+            }
+
+            // 如果以上方法都失败，尝试验证token
+            debugLog('尝试验证token...');
+            const validationResult = await validateToken(token);
+            if (validationResult.success) {
+                debugLog('token验证成功');
+
+                // 更新用户信息
+                if (validationResult.user) {
+                    usernameElement.textContent = validationResult.user.username;
+                    welcomeMessage.textContent = `欢迎回来，${validationResult.user.username}！`;
+
+                    // 保存用户信息
+                    localStorage.setItem('user', JSON.stringify(validationResult.user));
+                    sessionStorage.setItem('user', JSON.stringify(validationResult.user));
+
+                    debugLog(`更新用户信息: ${validationResult.user.username}`);
+                }
+
+                // 显示内容
+                contentArea.innerHTML = `
+                    <h2>您已成功登录</h2>
+                    <p>您现在可以访问Web NAS的所有功能。</p>
+                `;
+            } else {
+                debugLog(`token验证失败: ${validationResult.error}`);
+                errorMessage.textContent = `登录已过期或无效，请重新登录 (${validationResult.error})`;
+                errorMessage.style.display = 'block';
+                welcomeMessage.textContent = '请登录后访问此页面';
+                usernameElement.textContent = '未登录';
+
+                // 延迟跳转到登录页面
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,346 @@
+ /* 管理页面容器 */
+ .admin-container {
+     max-width: 1200px;
+     margin: 2rem auto;
+     padding: 0 2rem;
+     display: flex;
+     flex-direction: column;
+     gap: 2rem;
+ }
+
+ /* 统计卡片部分 */
+ .stats-section {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+     gap: 1.5rem;
+ }
+
+ .stat-card {
+     background-color: var(--surface-color);
+     border-radius: 12px;
+     padding: 1.5rem;
+     display: flex;
+     align-items: center;
+     gap: 1rem;
+     box-shadow: var(--shadow-sm);
+     transition: transform 0.2s, box-shadow 0.2s;
+ }
+
+ .stat-card:hover {
+     transform: translateY(-2px);
+     box-shadow: var(--shadow-md);
+ }
+
+ .stat-icon {
+     width: 3rem;
+     height: 3rem;
+     border-radius: 12px;
+     background-color: var(--primary-color);
+     opacity: 0.1;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background-size: 1.5rem;
+     background-repeat: no-repeat;
+     background-position: center;
+ }
+
+ .users-icon {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+ }
+
+ .active-icon {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/%3E%3Cpolyline points='22 4 12 14.01 9 11.01'/%3E%3C/svg%3E");
+ }
+
+ .storage-icon {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 12H2'/%3E%3Cpath d='M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'/%3E%3Cline x1='6' y1='16' x2='6.01' y2='16'/%3E%3Cline x1='10' y1='16' x2='10.01' y2='16'/%3E%3C/svg%3E");
+ }
+
+ .stat-content h3 {
+     font-size: 0.875rem;
+     font-weight: 500;
+     color: var(--text-secondary);
+     margin: 0;
+ }
+
+ .stat-content p {
+     font-size: 1.5rem;
+     font-weight: 500;
+     color: var(--text-primary);
+     margin: 0.25rem 0 0;
+ }
+
+ /* 用户管理和日志部分 */
+ .users-section,
+ .logs-section {
+     background-color: var(--surface-color);
+     border-radius: 12px;
+     box-shadow: var(--shadow-sm);
+     overflow: hidden;
+ }
+
+ .section-header {
+     padding: 1.5rem;
+     border-bottom: 1px solid var(--border-color);
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .section-header h2 {
+     font-size: 1.125rem;
+     font-weight: 500;
+     color: var(--text-primary);
+     margin: 0;
+ }
+
+ /* 表格样式 */
+ .users-table-wrapper,
+ .logs-table-wrapper {
+     overflow-x: auto;
+ }
+
+ .users-table,
+ .logs-table {
+     width: 100%;
+     border-collapse: separate;
+     border-spacing: 0;
+ }
+
+ .users-table th,
+ .logs-table th {
+     padding: 0.75rem 1rem;
+     text-align: left;
+     color: var(--text-secondary);
+     font-weight: 500;
+     font-size: 0.875rem;
+     border-bottom: 1px solid var(--border-color);
+     white-space: nowrap;
+ }
+
+ .users-table td,
+ .logs-table td {
+     padding: 0.75rem 1rem;
+     font-size: 0.875rem;
+     border-bottom: 1px solid var(--border-color);
+ }
+
+ .users-table tbody tr,
+ .logs-table tbody tr {
+     transition: background-color 0.2s;
+ }
+
+ .users-table tbody tr:hover,
+ .logs-table tbody tr:hover {
+     background-color: var(--hover-color);
+ }
+
+ /* 状态标签 */
+ .status-badge {
+     display: inline-flex;
+     align-items: center;
+     padding: 0.25rem 0.75rem;
+     border-radius: 1rem;
+     font-size: 0.75rem;
+     font-weight: 500;
+ }
+
+ .status-active {
+     background-color: rgba(52, 199, 89, 0.1);
+     color: #34c759;
+ }
+
+ .status-inactive {
+     background-color: rgba(142, 142, 147, 0.1);
+     color: #8e8e93;
+ }
+
+ /* 按钮和图标 */
+ .btn {
+     background-color: var(--surface-color);
+     border: 1px solid var(--border-color);
+     color: var(--text-primary);
+     padding: 0.5rem 1rem;
+     border-radius: 6px;
+     cursor: pointer;
+     font-size: 0.875rem;
+     display: flex;
+     align-items: center;
+     gap: 0.5rem;
+     transition: all 0.2s;
+ }
+
+ .btn:hover {
+     background-color: var(--hover-color);
+ }
+
+ .btn-primary {
+     background-color: var(--primary-color);
+     color: white;
+     border: none;
+ }
+
+ .btn-primary:hover {
+     opacity: 0.9;
+ }
+
+ .btn-danger {
+     background-color: #ff3b30;
+     color: white;
+     border: none;
+ }
+
+ .btn-danger:hover {
+     opacity: 0.9;
+ }
+
+ .icon {
+     width: 1.25rem;
+     height: 1.25rem;
+     background-size: contain;
+     background-repeat: no-repeat;
+     background-position: center;
+ }
+
+ .add-icon {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='12' y1='5' x2='12' y2='19'/%3E%3Cline x1='5' y1='12' x2='19' y2='12'/%3E%3C/svg%3E");
+ }
+
+ /* 日志筛选器 */
+ .log-filters {
+     display: flex;
+     gap: 1rem;
+ }
+
+ .filter-select,
+ .filter-date {
+     padding: 0.5rem;
+     border: 1px solid var(--border-color);
+     border-radius: 6px;
+     font-size: 0.875rem;
+     color: var(--text-primary);
+     background-color: var(--surface-color);
+ }
+
+ .filter-select:focus,
+ .filter-date:focus {
+     outline: none;
+     border-color: var(--primary-color);
+     box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+ }
+
+ /* 对话框样式 */
+ .dialog {
+     display: none;
+     position: fixed;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background-color: rgba(0, 0, 0, 0.4);
+     backdrop-filter: blur(5px);
+     -webkit-backdrop-filter: blur(5px);
+     z-index: 1000;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .dialog-content {
+     background-color: var(--surface-color);
+     border-radius: 12px;
+     padding: 1.5rem;
+     width: 90%;
+     max-width: 500px;
+     box-shadow: var(--shadow-md);
+ }
+
+ .dialog-content h3 {
+     font-size: 1.25rem;
+     font-weight: 500;
+     color: var(--text-primary);
+     margin-bottom: 1.5rem;
+ }
+
+ /* 表单样式 */
+ .form-group {
+     margin-bottom: 1.25rem;
+ }
+
+ .form-group label {
+     display: block;
+     color: var(--text-secondary);
+     font-size: 0.875rem;
+     margin-bottom: 0.5rem;
+ }
+
+ .form-group input,
+ .form-group select {
+     width: 100%;
+     padding: 0.5rem 1rem;
+     border: 1px solid var(--border-color);
+     border-radius: 6px;
+     font-size: 0.875rem;
+     transition: all 0.2s;
+     background-color: var(--surface-color);
+     color: var(--text-primary);
+ }
+
+ .form-group input:focus,
+ .form-group select:focus {
+     outline: none;
+     border-color: var(--primary-color);
+     box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+ }
+
+ /* 响应式设计 */
+ @media (max-width: 768px) {
+     .admin-container {
+         padding: 1rem;
+     }
+
+     .stats-section {
+         grid-template-columns: 1fr;
+     }
+
+     .section-header {
+         flex-direction: column;
+         gap: 1rem;
+         align-items: flex-start;
+     }
+
+     .log-filters {
+         width: 100%;
+         flex-direction: column;
+     }
+
+     .users-table th,
+     .users-table td,
+     .logs-table th,
+     .logs-table td {
+         padding: 0.5rem;
+     }
+
+     .col-lastlogin,
+     .col-storage,
+     .col-details {
+         display: none;
+     }
+ }
+
+ /* 动画效果 */
+ @keyframes slideIn {
+     from {
+         transform: translateY(-10px);
+         opacity: 0;
+     }
+
+     to {
+         transform: translateY(0);
+         opacity: 1;
+     }
+ }
+
+ .dialog-content {
+     animation: slideIn 0.2s ease-out;
+ }

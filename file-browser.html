@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件浏览器 - Web NAS</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4a6cf7;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #4a6cf7;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .separator {
+            margin: 0 8px;
+            color: #6c757d;
+        }
+
+        .file-browser-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .sidebar-item.active {
+            background-color: #e2e6ea;
+        }
+
+        .sidebar-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .main-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        .btn-icon {
+            margin-right: 5px;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .view-option {
+            background: none;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .view-option.active {
+            background-color: #e2e6ea;
+        }
+
+        .file-list {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .file-list-header {
+            display: grid;
+            grid-template-columns: 40px 2fr 1fr 1fr 100px;
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .file-item {
+            display: grid;
+            grid-template-columns: 40px 2fr 1fr 1fr 100px;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .file-icon {
+            font-size: 1.2rem;
+        }
+
+        .file-name {
+            font-weight: 500;
+        }
+
+        .file-size,
+        .file-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            color: #4a6cf7;
+        }
+
+        .grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .grid-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .grid-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .grid-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            word-break: break-word;
+        }
+
+        .grid-info {
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+        .debug-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">Web NAS</div>
+            <div class="user-info">
+                <span class="user-name" id="username">加载中...</span>
+                <button class="logout-btn" id="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">首页</a>
+                <span class="separator">/</span>
+                <span>文件浏览器</span>
+                <span id="folder-path"></span>
+            </div>
+
+            <h1>文件浏览器</h1>
+
+            <div class="file-browser-container">
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3>快速访问</h3>
+                        <div class="sidebar-item active">
+                            <span class="sidebar-icon">📂</span>
+                            <span>全部文件</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">⭐</span>
+                            <span>收藏</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">🕒</span>
+                            <span>最近</span>
+                        </div>
+                    </div>
+                    <div class="sidebar-section">
+                        <h3>分类</h3>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">📄</span>
+                            <span>文档</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">🖼️</span>
+                            <span>图片</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">🎵</span>
+                            <span>音乐</span>
+                        </div>
+                        <div class="sidebar-item">
+                            <span class="sidebar-icon">🎬</span>
+                            <span>视频</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-area">
+                    <div class="toolbar">
+                        <input type="text" class="search-box" placeholder="搜索文件...">
+                        <div class="action-buttons">
+                            <button class="btn" id="upload-btn">
+                                <span class="btn-icon">⬆️</span>
+                                上传
+                            </button>
+                            <button class="btn" id="new-folder-btn">
+                                <span class="btn-icon">📁</span>
+                                新建文件夹
+                            </button>
+                        </div>
+                    </div>
+                    <div class="view-options">
+                        <button class="view-option active" id="list-view-btn">列表视图</button>
+                        <button class="view-option" id="grid-view-btn">网格视图</button>
+                    </div>
+                    <div id="file-container" class="file-list">
+                        <div class="file-list-header">
+                            <div></div>
+                            <div>名称</div>
+                            <div>大小</div>
+                            <div>修改日期</div>
+                            <div>操作</div>
+                        </div>
+                        <div id="file-items-container">
+                            <!-- 文件项将在这里动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="debug-info" id="debug-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // 调试日志函数
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
+            console.log(message);
+        }
+
+        // 检测当前环境并返回适当的API基础URL
+        function getApiBaseUrl() {
+            const currentUrl = window.location.href;
+            debugLog(`当前页面URL: ${currentUrl}`);
+
+            // 如果当前在localhost:3000，使用相对路径
+            if (currentUrl.includes('localhost:3000')) {
+                debugLog('检测到Node.js服务器环境');
+                return '';
+            }
+
+            // 如果在127.0.0.1:5500 (VS Code Live Server)，使用主服务器
+            if (currentUrl.includes('127.0.0.1:5500') || currentUrl.includes('localhost:5500')) {
+                debugLog('检测到Live Server环境，API请求将转发到主服务器');
+                return 'http://localhost:3000';
+            }
+
+            // 默认情况下使用相对路径
+            debugLog('使用默认API路径');
+            return '';
+        }
+
+        // 获取API基础URL
+        const API_BASE_URL = getApiBaseUrl();
+        debugLog(`API基础URL: ${API_BASE_URL || '(相对路径)'}`);
+
+        // 从localStorage获取用户信息
+        function getUserInfo() {
+            const userFromLocalStorage = localStorage.getItem('user');
+            if (userFromLocalStorage) {
+                try {
+                    const user = JSON.parse(userFromLocalStorage);
+                    debugLog(`从localStorage获取到用户信息: ${user.username}`);
+                    return user;
+                } catch (e) {
+                    debugLog(`解析localStorage中的用户信息失败: ${e.message}`);
+                }
+            }
+            return null;
+        }
+
+        // 退出登录
+        function logout() {
+            debugLog('退出登录');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // 获取URL参数
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // 示例文件数据
+        const files = [
+            {
+                id: 1,
+                name: '文档',
+                type: 'folder',
+                icon: '📁',
+                size: '-',
+                date: '2024-03-14'
+            },
+            {
+                id: 2,
+                name: '图片',
+                type: 'folder',
+                icon: '📁',
+                size: '-',
+                date: '2024-03-14'
+            },
+            {
+                id: 3,
+                name: '视频',
+                type: 'folder',
+                icon: '📁',
+                size: '-',
+                date: '2024-03-14'
+            },
+            {
+                id: 4,
+                name: 'README.md',
+                type: 'file',
+                icon: '📄',
+                size: '2.5 KB',
+                date: '2024-03-14'
+            },
+            {
+                id: 5,
+                name: '项目计划.docx',
+                type: 'file',
+                icon: '📄',
+                size: '45 KB',
+                date: '2024-03-13'
+            },
+            {
+                id: 6,
+                name: '照片.jpg',
+                type: 'file',
+                icon: '🖼️',
+                size: '1.2 MB',
+                date: '2024-03-12'
+            },
+            {
+                id: 7,
+                name: '演示视频.mp4',
+                type: 'file',
+                icon: '🎬',
+                size: '15.8 MB',
+                date: '2024-03-10'
+            }
+        ];
+
+        // 渲染文件列表视图
+        function renderListView(files) {
+            const container = document.getElementById('file-items-container');
+
+            if (files.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>文件夹为空</h3>
+                        <p>此文件夹中没有文件或文件夹。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.dataset.id = file.id;
+                fileItem.dataset.type = file.type;
+                fileItem.dataset.name = file.name;
+
+                fileItem.innerHTML = `
+                    <div class="file-icon">${file.icon}</div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-size">${file.size}</div>
+                    <div class="file-date">${file.date}</div>
+                    <div class="file-actions">
+                        ${file.type === 'folder' ?
+                        `<button class="action-btn" title="打开">📂</button>` :
+                        `<button class="action-btn" title="下载">⬇️</button>`}
+                        <button class="action-btn" title="共享">🔗</button>
+                        <button class="action-btn" title="删除">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(fileItem);
+            });
+
+            // 添加文件项点击事件
+            document.querySelectorAll('.file-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                    // 如果点击的是操作按钮，不执行文件夹导航
+                    if (e.target.classList.contains('action-btn')) {
+                        return;
+                    }
+
+                    const fileType = this.dataset.type;
+                    const fileName = this.dataset.name;
+
+                    if (fileType === 'folder') {
+                        debugLog(`打开文件夹: ${fileName}`);
+                        // 在实际应用中，这里应该导航到该文件夹
+                        // 现在只是显示一个提示
+                        alert(`打开文件夹: ${fileName}`);
+                    } else {
+                        debugLog(`打开文件: ${fileName}`);
+                        // 在实际应用中，这里应该预览该文件
+                        // 现在只是显示一个提示
+                        alert(`打开文件: ${fileName}`);
+                    }
+                });
+            });
+
+            // 添加操作按钮点击事件
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const fileItem = this.closest('.file-item');
+                    const fileType = fileItem.dataset.type;
+                    const fileName = fileItem.dataset.name;
+                    const action = this.title;
+
+                    debugLog(`对文件 ${fileName} 执行操作: ${action}`);
+                    alert(`对文件 ${fileName} 执行操作: ${action}`);
+                });
+            });
+        }
+
+        // 渲染文件网格视图
+        function renderGridView(files) {
+            const container = document.getElementById('file-container');
+
+            if (files.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>文件夹为空</h3>
+                        <p>此文件夹中没有文件或文件夹。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '<div class="grid-view" id="grid-items-container"></div>';
+            const gridContainer = document.getElementById('grid-items-container');
+
+            files.forEach(file => {
+                const gridItem = document.createElement('div');
+                gridItem.className = 'grid-item';
+                gridItem.dataset.id = file.id;
+                gridItem.dataset.type = file.type;
+                gridItem.dataset.name = file.name;
+
+                gridItem.innerHTML = `
+                    <div class="grid-icon">${file.icon}</div>
+                    <div class="grid-name">${file.name}</div>
+                    <div class="grid-info">${file.size} · ${file.date}</div>
+                `;
+                gridContainer.appendChild(gridItem);
+            });
+
+            // 添加网格项点击事件
+            document.querySelectorAll('.grid-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const fileType = this.dataset.type;
+                    const fileName = this.dataset.name;
+
+                    if (fileType === 'folder') {
+                        debugLog(`打开文件夹: ${fileName}`);
+                        alert(`打开文件夹: ${fileName}`);
+                    } else {
+                        debugLog(`打开文件: ${fileName}`);
+                        alert(`打开文件: ${fileName}`);
+                    }
+                });
+            });
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('DOMContentLoaded', function () {
+            debugLog('页面加载完成');
+
+            // 获取DOM元素
+            const usernameElement = document.getElementById('username');
+            const logoutBtn = document.getElementById('logout-btn');
+            const listViewBtn = document.getElementById('list-view-btn');
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const uploadBtn = document.getElementById('upload-btn');
+            const newFolderBtn = document.getElementById('new-folder-btn');
+            const folderPath = document.getElementById('folder-path');
+
+            // 绑定退出登录按钮事件
+            logoutBtn.addEventListener('click', logout);
+
+            // 获取用户信息
+            const user = getUserInfo();
+            if (!user) {
+                debugLog('未找到用户信息，重定向到登录页面');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // 显示用户名
+            usernameElement.textContent = user.username;
+            debugLog(`显示用户信息: ${user.username}`);
+
+            // 检查是否有指定的文件夹参数
+            const folderParam = getUrlParameter('folder');
+            if (folderParam) {
+                debugLog(`指定的文件夹: ${folderParam}`);
+                folderPath.innerHTML = `<span class="separator">/</span><span>${folderParam}</span>`;
+
+                // 在实际应用中，这里应该根据文件夹参数加载对应的文件
+                // 现在只是使用示例数据
+            }
+
+            // 默认渲染列表视图
+            renderListView(files);
+            debugLog('渲染文件列表视图');
+
+            // 绑定视图切换按钮事件
+            listViewBtn.addEventListener('click', function () {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                renderListView(files);
+                debugLog('切换到列表视图');
+            });
+
+            gridViewBtn.addEventListener('click', function () {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                renderGridView(files);
+                debugLog('切换到网格视图');
+            });
+
+            // 绑定上传按钮事件
+            uploadBtn.addEventListener('click', function () {
+                debugLog('点击上传按钮');
+                alert('上传功能正在开发中，敬请期待！');
+            });
+
+            // 绑定新建文件夹按钮事件
+            newFolderBtn.addEventListener('click', function () {
+                debugLog('点击新建文件夹按钮');
+                alert('新建文件夹功能正在开发中，敬请期待！');
+            });
+
+            // 绑定侧边栏项点击事件
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    debugLog(`点击侧边栏项: ${this.textContent.trim()}`);
+                    alert(`${this.textContent.trim()} 功能正在开发中，敬请期待！`);
+                });
+            });
+
+            // 绑定搜索框事件
+            const searchBox = document.querySelector('.search-box');
+            searchBox.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const filteredFiles = files.filter(file =>
+                    file.name.toLowerCase().includes(searchTerm)
+                );
+
+                if (listViewBtn.classList.contains('active')) {
+                    renderListView(filteredFiles);
+                } else {
+                    renderGridView(filteredFiles);
+                }
+
+                debugLog(`搜索文件: ${searchTerm}`);
+            });
+        });
+    </script>
+</body>
+
+</html>

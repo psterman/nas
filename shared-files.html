@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共享文件 - Web NAS</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4a6cf7;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            margin-top: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumb a {
+            color: #4a6cf7;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .separator {
+            margin: 0 8px;
+            color: #6c757d;
+        }
+
+        .shared-files-container {
+            margin-top: 20px;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        .btn-icon {
+            margin-right: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom-color: #4a6cf7;
+            color: #4a6cf7;
+            font-weight: 500;
+        }
+
+        .file-list {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .file-list-header {
+            display: grid;
+            grid-template-columns: 40px 2fr 1fr 1fr 100px;
+            background-color: #f8f9fa;
+            padding: 10px 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .file-item {
+            display: grid;
+            grid-template-columns: 40px 2fr 1fr 1fr 100px;
+            padding: 10px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+        }
+
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .file-icon {
+            font-size: 1.2rem;
+        }
+
+        .file-name {
+            font-weight: 500;
+        }
+
+        .file-shared-with,
+        .file-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            color: #4a6cf7;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+        .debug-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="window.location.href='index.html'">Web NAS</div>
+            <div class="user-info">
+                <span class="user-name" id="username">加载中...</span>
+                <button class="logout-btn" id="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">首页</a>
+                <span class="separator">/</span>
+                <span>共享文件</span>
+            </div>
+
+            <h1>共享文件</h1>
+
+            <div class="shared-files-container">
+                <div class="toolbar">
+                    <input type="text" class="search-box" placeholder="搜索共享文件...">
+                    <div class="action-buttons">
+                        <button class="btn">
+                            <span class="btn-icon">🔗</span>
+                            创建共享链接
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active">我的共享</div>
+                    <div class="tab">共享给我的</div>
+                </div>
+
+                <div class="file-list">
+                    <div class="file-list-header">
+                        <div></div>
+                        <div>名称</div>
+                        <div>共享对象</div>
+                        <div>共享日期</div>
+                        <div>操作</div>
+                    </div>
+                    <div id="file-items-container">
+                        <!-- 文件项将在这里动态生成 -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="debug-info" id="debug-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // 调试日志函数
+        function debugLog(message) {
+            const debugInfo = document.getElementById('debug-info');
+            const timestamp = new Date().toLocaleTimeString();
+            debugInfo.innerHTML += `[${timestamp}] ${message}\n`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
+            console.log(message);
+        }
+
+        // 检测当前环境并返回适当的API基础URL
+        function getApiBaseUrl() {
+            const currentUrl = window.location.href;
+            debugLog(`当前页面URL: ${currentUrl}`);
+
+            // 如果当前在localhost:3000，使用相对路径
+            if (currentUrl.includes('localhost:3000')) {
+                debugLog('检测到Node.js服务器环境');
+                return '';
+            }
+
+            // 如果在127.0.0.1:5500 (VS Code Live Server)，使用主服务器
+            if (currentUrl.includes('127.0.0.1:5500') || currentUrl.includes('localhost:5500')) {
+                debugLog('检测到Live Server环境，API请求将转发到主服务器');
+                return 'http://localhost:3000';
+            }
+
+            // 默认情况下使用相对路径
+            debugLog('使用默认API路径');
+            return '';
+        }
+
+        // 获取API基础URL
+        const API_BASE_URL = getApiBaseUrl();
+        debugLog(`API基础URL: ${API_BASE_URL || '(相对路径)'}`);
+
+        // 从localStorage获取用户信息
+        function getUserInfo() {
+            const userFromLocalStorage = localStorage.getItem('user');
+            if (userFromLocalStorage) {
+                try {
+                    const user = JSON.parse(userFromLocalStorage);
+                    debugLog(`从localStorage获取到用户信息: ${user.username}`);
+                    return user;
+                } catch (e) {
+                    debugLog(`解析localStorage中的用户信息失败: ${e.message}`);
+                }
+            }
+            return null;
+        }
+
+        // 退出登录
+        function logout() {
+            debugLog('退出登录');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // 示例共享文件数据
+        const sharedFiles = [
+            {
+                id: 1,
+                name: '项目计划.docx',
+                type: 'file',
+                icon: '📄',
+                sharedWith: '张三, 李四',
+                date: '2024-03-14'
+            },
+            {
+                id: 2,
+                name: '财务报表',
+                type: 'folder',
+                icon: '📁',
+                sharedWith: '财务部门',
+                date: '2024-03-13'
+            },
+            {
+                id: 3,
+                name: '产品设计.psd',
+                type: 'file',
+                icon: '🖼️',
+                sharedWith: '设计团队',
+                date: '2024-03-12'
+            },
+            {
+                id: 4,
+                name: '会议记录.pdf',
+                type: 'file',
+                icon: '📄',
+                sharedWith: '全公司',
+                date: '2024-03-10'
+            }
+        ];
+
+        // 渲染共享文件列表
+        function renderSharedFiles(files) {
+            const container = document.getElementById('file-items-container');
+
+            if (files.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <h3>没有找到共享文件</h3>
+                        <p>您还没有共享任何文件，或者没有文件被共享给您。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-icon">${file.icon}</div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-shared-with">${file.sharedWith}</div>
+                    <div class="file-date">${file.date}</div>
+                    <div class="file-actions">
+                        <button class="action-btn" title="编辑共享设置">✏️</button>
+                        <button class="action-btn" title="复制共享链接">🔗</button>
+                        <button class="action-btn" title="取消共享">❌</button>
+                    </div>
+                `;
+                container.appendChild(fileItem);
+            });
+        }
+
+        // 页面加载完成后执行
+        window.addEventListener('DOMContentLoaded', function () {
+            debugLog('页面加载完成');
+
+            // 获取DOM元素
+            const usernameElement = document.getElementById('username');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            // 绑定退出登录按钮事件
+            logoutBtn.addEventListener('click', logout);
+
+            // 获取用户信息
+            const user = getUserInfo();
+            if (!user) {
+                debugLog('未找到用户信息，重定向到登录页面');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // 显示用户名
+            usernameElement.textContent = user.username;
+            debugLog(`显示用户信息: ${user.username}`);
+
+            // 渲染共享文件列表
+            renderSharedFiles(sharedFiles);
+            debugLog('渲染共享文件列表');
+
+            // 绑定标签页切换事件
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (this.textContent === '我的共享') {
+                        renderSharedFiles(sharedFiles);
+                    } else {
+                        renderSharedFiles([]);  // 示例：共享给我的为空
+                    }
+                });
+            });
+
+            // 绑定搜索框事件
+            const searchBox = document.querySelector('.search-box');
+            searchBox.addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                const filteredFiles = sharedFiles.filter(file =>
+                    file.name.toLowerCase().includes(searchTerm) ||
+                    file.sharedWith.toLowerCase().includes(searchTerm)
+                );
+                renderSharedFiles(filteredFiles);
+            });
+        });
+    </script>
+</body>
+
+</html>

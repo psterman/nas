@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "87fe85ab-03f4-43eb-8e20-b10e959de948",
+      "username": "admin",
+      "password": "$2a$10$4C7gbQqF.AzikOLlOmP2SuDAcEQtaJRd7cceLYk6NrTu72yl1aKQm",
+      "email": "admin@example.com",
+      "role": "admin",
+      "createdAt": "2025-03-14T13:32:22.588Z"
+    }
+  ]
+}

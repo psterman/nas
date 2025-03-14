@@ -1,0 +1,40 @@
+{
+    "name": "web-nas",
+    "version": "1.0.0",
+    "description": "Web NAS应用 - 安全存储，随时访问",
+    "main": "server-standalone.js",
+    "scripts": {
+        "start": "node server-standalone.js",
+        "web": "node server-standalone.js",
+        "dev": "nodemon server-standalone.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.2",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    },
+    "build": {
+        "appId": "com.webnas.app",
+        "productName": "Web NAS",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "nsis"
+        },
+        "mac": {
+            "target": "dmg"
+        },
+        "linux": {
+            "target": "AppImage"
+        }
+    }
+}
