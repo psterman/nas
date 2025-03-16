@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "server.js"
+        }
+    ],
+    "env": {
+        "JWT_SECRET": "@jwt_secret",
+        "CLOUDINARY_CLOUD_NAME": "@cloudinary_cloud_name",
+        "CLOUDINARY_API_KEY": "@cloudinary_api_key",
+        "CLOUDINARY_API_SECRET": "@cloudinary_api_secret"
+    }
+}

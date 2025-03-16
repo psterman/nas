@@ -233,6 +233,14 @@
 
         .file-icon {
             font-size: 1.2rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .file-icon img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
         }
 
         .file-name {
@@ -288,6 +296,11 @@
             margin-bottom: 10px;
         }
 
+        .grid-icon img {
+            width: 48px;
+            height: 48px;
+        }
+
         .grid-name {
             font-weight: 500;
             margin-bottom: 5px;
@@ -322,6 +335,285 @@
             max-height: 300px;
             overflow: auto;
         }
+
+        .cloudinary-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .cloudinary-status.connected {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .cloudinary-status.disconnected {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .cloudinary-status-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .cloudinary-settings-btn {
+            margin-left: auto;
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cloudinary-settings-btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* 预览模态框样式 */
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .preview-content {
+            max-width: 90%;
+            max-height: 80%;
+            position: relative;
+        }
+
+        .preview-header {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .preview-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 80vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-video {
+            max-width: 100%;
+            max-height: 80vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .preview-audio {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .preview-pdf {
+            width: 100%;
+            height: 80vh;
+            border: none;
+        }
+
+        .preview-text {
+            width: 100%;
+            max-width: 800px;
+            max-height: 80vh;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            overflow: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        .preview-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .preview-btn {
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .preview-btn:hover {
+            background-color: #3a5bd9;
+        }
+
+        .video-player-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .video-player {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            background-color: #000;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-player-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-progress {
+            flex-grow: 1;
+            height: 5px;
+            background-color: #555;
+            margin: 0 10px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-progress-bar {
+            height: 100%;
+            background-color: #4a6cf7;
+            width: 0;
+        }
+
+        .video-time {
+            color: white;
+            font-size: 12px;
+            min-width: 80px;
+        }
+
+        .video-control-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+        }
     </style>
 </head>
 
@@ -346,6 +638,13 @@
             </div>
 
             <h1>文件浏览器</h1>
+
+            <!-- Cloudinary 连接状态 -->
+            <div id="cloudinary-status" class="cloudinary-status">
+                <span class="cloudinary-status-icon">⏳</span>
+                <span>正在检查 Cloudinary 连接状态...</span>
+                <button class="cloudinary-settings-btn" id="cloudinary-settings-btn">设置</button>
+            </div>
 
             <div class="file-browser-container">
                 <div class="sidebar">
@@ -421,6 +720,30 @@
         </div>
     </div>
 
+    <!-- Cloudinary 设置模态框 -->
+    <div id="cloudinary-settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cloudinary 设置</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cloudinary-api-key">API Key</label>
+                    <input type="text" id="cloudinary-api-key" placeholder="输入 Cloudinary API Key">
+                </div>
+                <div class="form-group">
+                    <label for="cloudinary-api-secret">API Secret</label>
+                    <input type="password" id="cloudinary-api-secret" placeholder="输入 Cloudinary API Secret">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-secondary" id="modal-cancel">取消</button>
+                    <button class="btn" id="save-cloudinary-settings">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 调试日志函数
         function debugLog(message) {
@@ -436,21 +759,28 @@
             const currentUrl = window.location.href;
             debugLog(`当前页面URL: ${currentUrl}`);
 
-            // 如果当前在localhost:3000，使用相对路径
+            // 如果在GitHub Pages上
+            if (currentUrl.includes('github.io')) {
+                debugLog('检测到GitHub Pages环境');
+                // 替换为您实际部署的后端服务器地址
+                return 'https://your-backend-server.com';
+            }
+
+            // 如果在本地开发环境（localhost:3000）
             if (currentUrl.includes('localhost:3000')) {
                 debugLog('检测到Node.js服务器环境');
                 return '';
             }
 
-            // 如果在127.0.0.1:5500 (VS Code Live Server)，使用主服务器
+            // 如果在VS Code Live Server（localhost:5500或127.0.0.1:5500）
             if (currentUrl.includes('127.0.0.1:5500') || currentUrl.includes('localhost:5500')) {
-                debugLog('检测到Live Server环境，API请求将转发到主服务器');
+                debugLog('检测到Live Server环境');
                 return 'http://localhost:3000';
             }
 
-            // 默认情况下使用相对路径
-            debugLog('使用默认API路径');
-            return '';
+            // 默认使用本地服务器
+            debugLog('使用默认本地服务器地址');
+            return 'http://localhost:3000';
         }
 
         // 获取API基础URL
@@ -488,198 +818,764 @@
             return urlParams.get(name);
         }
 
-        // 示例文件数据
-        const files = [
-            {
-                id: 1,
-                name: '文档',
-                type: 'folder',
-                icon: '📁',
-                size: '-',
-                date: '2024-03-14'
-            },
-            {
-                id: 2,
-                name: '图片',
-                type: 'folder',
-                icon: '📁',
-                size: '-',
-                date: '2024-03-14'
-            },
-            {
-                id: 3,
-                name: '视频',
-                type: 'folder',
-                icon: '📁',
-                size: '-',
-                date: '2024-03-14'
-            },
-            {
-                id: 4,
-                name: 'README.md',
-                type: 'file',
-                icon: '📄',
-                size: '2.5 KB',
-                date: '2024-03-14'
-            },
-            {
-                id: 5,
-                name: '项目计划.docx',
-                type: 'file',
-                icon: '📄',
-                size: '45 KB',
-                date: '2024-03-13'
-            },
-            {
-                id: 6,
-                name: '照片.jpg',
-                type: 'file',
-                icon: '🖼️',
-                size: '1.2 MB',
-                date: '2024-03-12'
-            },
-            {
-                id: 7,
-                name: '演示视频.mp4',
-                type: 'file',
-                icon: '🎬',
-                size: '15.8 MB',
-                date: '2024-03-10'
+        // 获取文件列表
+        async function fetchFiles(path = '') {
+            try {
+                debugLog(`获取文件列表: ${path}`);
+                const response = await fetch(`${API_BASE_URL}/api/files?path=${encodeURIComponent(path)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`获取文件列表失败: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                if (!data.success) {
+                    throw new Error(data.error || '获取文件列表失败');
+                }
+                debugLog(`成功获取文件列表，共 ${data.items.length} 个项目`);
+                return data.items;
+            } catch (error) {
+                debugLog(`获取文件列表出错: ${error.message}`);
+                alert('获取文件列表失败，请检查网络连接或重新登录');
+                return [];
             }
-        ];
+        }
+
+        // 上传文件
+        async function uploadFiles(files, currentPath = '') {
+            try {
+                debugLog(`开始上传文件，数量: ${files.length}`);
+                debugLog(`当前路径: ${currentPath}`);
+
+                // 创建进度提示容器
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'upload-progress-container';
+                progressContainer.style.position = 'fixed';
+                progressContainer.style.top = '20px';
+                progressContainer.style.right = '20px';
+                progressContainer.style.width = '300px';
+                progressContainer.style.backgroundColor = 'white';
+                progressContainer.style.padding = '15px';
+                progressContainer.style.borderRadius = '8px';
+                progressContainer.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+                progressContainer.style.zIndex = '1000';
+                document.body.appendChild(progressContainer);
+
+                // 上传所有文件
+                const results = [];
+                for (const file of files) {
+                    try {
+                        // 创建单个文件的进度条
+                        const progressDiv = document.createElement('div');
+                        progressDiv.style.marginBottom = '10px';
+                        progressDiv.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span style="font-size: 14px;">${file.name}</span>
+                                <span style="font-size: 14px;" class="progress-text">0%</span>
+                            </div>
+                            <div class="progress-bar" style="height: 4px; background-color: #f0f0f0; border-radius: 2px;">
+                                <div class="progress-fill" style="width: 0%; height: 100%; background-color: #4a6cf7; border-radius: 2px; transition: width 0.3s;"></div>
+                            </div>
+                        `;
+                        progressContainer.appendChild(progressDiv);
+
+                        const progressFill = progressDiv.querySelector('.progress-fill');
+                        const progressText = progressDiv.querySelector('.progress-text');
+
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        if (currentPath) {
+                            formData.append('path', currentPath);
+                        }
+
+                        debugLog(`准备上传文件: ${file.name}, 大小: ${formatFileSize(file.size)}`);
+                        const apiUrl = `${API_BASE_URL}/api/files/upload`;
+                        debugLog(`API地址: ${apiUrl}`);
+                        const token = localStorage.getItem('token');
+                        debugLog(`使用令牌: ${token ? token.substring(0, 20) + '...' : 'undefined'}`);
+
+                        // 使用 XMLHttpRequest 来获取上传进度
+                        const xhr = new XMLHttpRequest();
+                        xhr.upload.onprogress = (event) => {
+                            if (event.lengthComputable) {
+                                const percentComplete = (event.loaded / event.total) * 100;
+                                progressFill.style.width = percentComplete + '%';
+                                progressText.textContent = percentComplete.toFixed(1) + '%';
+                                debugLog(`上传进度 ${file.name}: ${percentComplete.toFixed(1)}%`);
+                            }
+                        };
+
+                        const response = await new Promise((resolve, reject) => {
+                            // 设置超时时间（10分钟）
+                            xhr.timeout = 600000; // 10分钟
+
+                            xhr.onload = () => {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    debugLog(`文件 ${file.name} 上传完成，服务器响应: ${JSON.stringify(xhr.response)}`);
+                                    resolve(xhr.response);
+                                } else {
+                                    debugLog(`文件 ${file.name} 上传失败，状态码: ${xhr.status}`);
+                                    reject(new Error(`上传失败: ${xhr.statusText || '服务器错误'}`));
+                                }
+                            };
+
+                            xhr.ontimeout = () => {
+                                debugLog(`文件 ${file.name} 上传超时`);
+                                reject(new Error('上传超时，请重试'));
+                            };
+
+                            xhr.onerror = () => {
+                                debugLog(`文件 ${file.name} 上传网络错误`);
+                                reject(new Error('网络错误，请检查网络连接'));
+                            };
+
+                            xhr.onabort = () => {
+                                debugLog(`文件 ${file.name} 上传被中断`);
+                                reject(new Error('上传被中断'));
+                            };
+
+                            xhr.open('POST', apiUrl);
+                            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                            xhr.responseType = 'json';
+
+                            // 添加上传完成事件
+                            xhr.upload.onload = () => {
+                                debugLog(`文件 ${file.name} 数据传输完成，等待服务器处理`);
+                                progressText.textContent = '处理中...';
+                            };
+
+                            // 添加上传错误事件
+                            xhr.upload.onerror = () => {
+                                debugLog(`文件 ${file.name} 上传过程中发生错误`);
+                                reject(new Error('上传过程中发生错误'));
+                            };
+
+                            // 对于大文件，特别是视频，显示提示
+                            if (file.size > 10 * 1024 * 1024) {
+                                debugLog(`大文件上传: ${file.name}, 大小: ${formatFileSize(file.size)}`);
+                                progressText.textContent = '准备上传大文件...';
+
+                                // 对于视频文件，显示特别提示
+                                if (file.name.match(/\.(mp4|avi|mov|wmv|flv|mkv)$/i)) {
+                                    debugLog(`视频文件上传: ${file.name}`);
+                                    progressDiv.style.backgroundColor = '#fff0e0';
+                                    const noteDiv = document.createElement('div');
+                                    noteDiv.style.fontSize = '12px';
+                                    noteDiv.style.color = '#ff6600';
+                                    noteDiv.style.marginTop = '5px';
+                                    noteDiv.textContent = '视频文件仅保存在本地服务器，不会上传到云端';
+                                    progressDiv.appendChild(noteDiv);
+                                }
+                            }
+
+                            debugLog(`开始发送文件 ${file.name} 到服务器`);
+                            xhr.send(formData);
+                        });
+
+                        debugLog(`服务器响应: ${JSON.stringify(response)}`);
+
+                        if (!response.success) {
+                            throw new Error(response.error || '上传失败');
+                        }
+
+                        progressDiv.style.backgroundColor = '#f0fff0';
+                        progressText.textContent = '完成';
+                        results.push(response);
+                        debugLog(`文件 ${file.name} 上传成功`);
+                    } catch (fileError) {
+                        debugLog(`单个文件上传失败: ${fileError.message}`);
+                        alert(`文件 ${file.name} 上传失败: ${fileError.message}`);
+                    }
+                }
+
+                // 3秒后移除进度条容器
+                setTimeout(() => {
+                    document.body.removeChild(progressContainer);
+                }, 3000);
+
+                if (results.length > 0) {
+                    debugLog(`成功上传 ${results.length} 个文件`);
+                    alert('文件上传成功');
+                    return results;
+                } else {
+                    throw new Error('所有文件上传失败');
+                }
+            } catch (error) {
+                debugLog(`上传文件出错: ${error.message}`);
+                alert(`上传文件失败: ${error.message}`);
+                return null;
+            }
+        }
+
+        // 下载文件
+        async function downloadFile(filePath) {
+            try {
+                debugLog(`开始下载文件: ${filePath}`);
+                const response = await fetch(`${API_BASE_URL}/api/files/download?path=${encodeURIComponent(filePath)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`下载失败: ${response.statusText}`);
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filePath.split('/').pop();
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                debugLog('文件下载成功');
+            } catch (error) {
+                debugLog(`下载文件出错: ${error.message}`);
+                alert('下载文件失败，请重试');
+            }
+        }
+
+        // 创建文件夹
+        async function createFolder(folderName, currentPath = '') {
+            try {
+                debugLog(`创建文件夹: ${folderName}`);
+                const response = await fetch(`${API_BASE_URL}/api/files/create-folder`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        path: currentPath,
+                        folderName: folderName
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`创建文件夹失败: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                debugLog('文件夹创建成功');
+                alert('文件夹创建成功');
+                return result;
+            } catch (error) {
+                debugLog(`创建文件夹出错: ${error.message}`);
+                alert('创建文件夹失败，请重试');
+                return null;
+            }
+        }
+
+        // 删除文件或文件夹
+        async function deleteItem(path) {
+            try {
+                debugLog(`开始删除项目: ${path}`);
+                const apiUrl = `${API_BASE_URL}/api/files?path=${encodeURIComponent(path)}`;
+                debugLog(`删除API URL: ${apiUrl}`);
+
+                const token = localStorage.getItem('token');
+                debugLog(`使用令牌: ${token ? token.substring(0, 20) + '...' : 'undefined'}`);
+
+                const response = await fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                debugLog(`删除响应状态: ${response.status} ${response.statusText}`);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    debugLog(`删除失败响应内容: ${errorText}`);
+                    throw new Error(`删除失败: ${response.statusText} - ${errorText}`);
+                }
+
+                const result = await response.json();
+                debugLog(`删除成功响应: ${JSON.stringify(result)}`);
+
+                alert('删除成功');
+                return true;
+            } catch (error) {
+                debugLog(`删除出错: ${error.message}`);
+                debugLog(`错误堆栈: ${error.stack}`);
+                alert(`删除失败: ${error.message}`);
+                return false;
+            }
+        }
+
+        // 获取文件图标
+        function getFileIcon(fileName, isDirectory) {
+            if (isDirectory) {
+                return '📁';
+            }
+
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            // 图片文件
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(ext)) {
+                return '🖼️';
+            }
+
+            // 视频文件
+            if (['mp4', 'avi', 'mov', 'wmv', 'flv', 'mkv', 'webm'].includes(ext)) {
+                return '🎬';
+            }
+
+            // 音频文件
+            if (['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a'].includes(ext)) {
+                return '🎵';
+            }
+
+            // 文档文件
+            if (['doc', 'docx', 'odt', 'rtf'].includes(ext)) {
+                return '📄';
+            }
+
+            // 电子表格
+            if (['xls', 'xlsx', 'ods', 'csv'].includes(ext)) {
+                return '📊';
+            }
+
+            // 演示文稿
+            if (['ppt', 'pptx', 'odp'].includes(ext)) {
+                return '📑';
+            }
+
+            // PDF文件
+            if (ext === 'pdf') {
+                return '📕';
+            }
+
+            // 压缩文件
+            if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) {
+                return '📦';
+            }
+
+            // 代码文件
+            if (['html', 'css', 'js', 'ts', 'jsx', 'tsx', 'php', 'py', 'java', 'c', 'cpp', 'cs', 'go', 'rb', 'swift'].includes(ext)) {
+                return '📝';
+            }
+
+            // 文本文件
+            if (['txt', 'md', 'json', 'xml', 'yml', 'yaml', 'ini', 'log', 'conf'].includes(ext)) {
+                return '📃';
+            }
+
+            // 默认图标
+            return '📄';
+        }
+
+        // 检查文件是否可预览
+        function isPreviewable(fileName) {
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            // 可预览的文件类型
+            const previewableTypes = [
+                // 图片
+                'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg',
+                // 视频
+                'mp4', 'webm',
+                // 音频
+                'mp3', 'wav', 'ogg',
+                // 文档
+                'pdf',
+                // 文本
+                'txt', 'md', 'json', 'xml', 'yml', 'yaml', 'html', 'css', 'js'
+            ];
+
+            return previewableTypes.includes(ext);
+        }
+
+        // 预览文件
+        async function previewFile(filePath) {
+            debugLog(`预览文件: ${filePath}`);
+
+            const fileName = filePath.split('/').pop();
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            // 创建预览模态框
+            const modal = document.createElement('div');
+            modal.className = 'preview-modal';
+            modal.style.display = 'flex';
+
+            // 创建预览内容容器
+            const content = document.createElement('div');
+            content.className = 'preview-content';
+
+            // 创建预览头部
+            const header = document.createElement('div');
+            header.className = 'preview-header';
+
+            const title = document.createElement('div');
+            title.className = 'preview-title';
+            title.textContent = fileName;
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'preview-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = () => document.body.removeChild(modal);
+
+            header.appendChild(title);
+            header.appendChild(closeBtn);
+
+            content.appendChild(header);
+
+            // 根据文件类型创建不同的预览
+            if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg'].includes(ext)) {
+                // 图片预览
+                const img = document.createElement('img');
+                img.className = 'preview-image';
+                img.src = `/storage/${filePath}`;
+                img.alt = fileName;
+                img.onload = () => {
+                    debugLog(`图片加载成功: ${filePath}`);
+                };
+                img.onerror = () => {
+                    debugLog(`图片加载失败: ${filePath}`);
+                    img.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItaW1hZ2UiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PGNpcmNsZSBjeD0iOC41IiBjeT0iOC41IiByPSIxLjUiPjwvY2lyY2xlPjxwb2x5bGluZSBwb2ludHM9IjIxIDE1IDE2IDEwIDUgMjEiPjwvcG9seWxpbmU+PC9zdmc+';
+                    title.textContent = `${fileName} (加载失败)`;
+                };
+                content.appendChild(img);
+            } else if (['mp4', 'webm'].includes(ext)) {
+                // 视频预览
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-player-container';
+
+                const video = document.createElement('video');
+                video.className = 'video-player';
+                video.src = `/storage/${filePath}`;
+                video.controls = true;
+                video.autoplay = true;
+                video.preload = 'metadata';
+
+                video.onloadedmetadata = () => {
+                    debugLog(`视频元数据加载成功: ${filePath}, 时长: ${video.duration}秒`);
+                    title.textContent = `${fileName} (${formatDuration(video.duration)})`;
+                };
+
+                video.onerror = () => {
+                    debugLog(`视频加载失败: ${filePath}`);
+                    title.textContent = `${fileName} (加载失败)`;
+                    videoContainer.innerHTML = '<div style="color: white; padding: 20px; text-align: center;">视频加载失败，请检查文件格式或权限</div>';
+                };
+
+                videoContainer.appendChild(video);
+                content.appendChild(videoContainer);
+            } else if (['mp3', 'wav', 'ogg'].includes(ext)) {
+                // 音频预览
+                const audio = document.createElement('audio');
+                audio.className = 'preview-audio';
+                audio.src = `/storage/${filePath}`;
+                audio.controls = true;
+                audio.autoplay = true;
+
+                audio.onloadedmetadata = () => {
+                    debugLog(`音频元数据加载成功: ${filePath}, 时长: ${audio.duration}秒`);
+                    title.textContent = `${fileName} (${formatDuration(audio.duration)})`;
+                };
+
+                audio.onerror = () => {
+                    debugLog(`音频加载失败: ${filePath}`);
+                    title.textContent = `${fileName} (加载失败)`;
+                    content.innerHTML = '<div style="color: white; padding: 20px; text-align: center;">音频加载失败，请检查文件格式或权限</div>';
+                };
+
+                content.appendChild(audio);
+            } else if (ext === 'pdf') {
+                // PDF预览
+                const iframe = document.createElement('iframe');
+                iframe.className = 'preview-pdf';
+                iframe.src = `/storage/${filePath}`;
+
+                iframe.onload = () => {
+                    debugLog(`PDF加载成功: ${filePath}`);
+                };
+
+                iframe.onerror = () => {
+                    debugLog(`PDF加载失败: ${filePath}`);
+                    iframe.srcdoc = '<div style="padding: 20px; text-align: center;">PDF加载失败，请检查文件格式或权限</div>';
+                    title.textContent = `${fileName} (加载失败)`;
+                };
+
+                content.appendChild(iframe);
+            } else if (['txt', 'md', 'json', 'xml', 'yml', 'yaml', 'html', 'css', 'js'].includes(ext)) {
+                // 文本预览
+                try {
+                    const response = await fetch(`/storage/${filePath}`);
+                    if (!response.ok) {
+                        throw new Error(`获取文件失败: ${response.statusText}`);
+                    }
+
+                    const text = await response.text();
+
+                    const pre = document.createElement('pre');
+                    pre.className = 'preview-text';
+                    pre.textContent = text;
+
+                    content.appendChild(pre);
+                    debugLog(`文本加载成功: ${filePath}, 大小: ${text.length}字节`);
+                } catch (error) {
+                    debugLog(`文本加载失败: ${error.message}`);
+                    content.innerHTML = '<div style="color: white; padding: 20px; text-align: center;">文本加载失败，请检查文件格式或权限</div>';
+                    title.textContent = `${fileName} (加载失败)`;
+                }
+            } else {
+                // 不支持预览的文件类型
+                content.innerHTML = `
+                    <div style="color: white; padding: 20px; text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 20px;">${getFileIcon(fileName, false)}</div>
+                        <div>无法预览此类型的文件</div>
+                        <div style="margin-top: 10px; font-size: 14px; color: #aaa;">文件类型: ${ext.toUpperCase()}</div>
+                    </div>
+                `;
+            }
+
+            // 创建控制按钮
+            const controls = document.createElement('div');
+            controls.className = 'preview-controls';
+
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'preview-btn';
+            downloadBtn.innerHTML = '⬇️ 下载文件';
+            downloadBtn.onclick = () => {
+                downloadFile(filePath);
+            };
+
+            controls.appendChild(downloadBtn);
+
+            // 组装模态框
+            modal.appendChild(content);
+            modal.appendChild(controls);
+
+            // 添加键盘事件监听
+            modal.tabIndex = -1;
+            modal.focus();
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(modal);
+                }
+            });
+
+            // 点击背景关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+
+            document.body.appendChild(modal);
+        }
+
+        // 格式化时长
+        function formatDuration(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
 
         // 渲染文件列表视图
         function renderListView(files) {
-            const container = document.getElementById('file-items-container');
-
-            if (files.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🔍</div>
-                        <h3>文件夹为空</h3>
-                        <p>此文件夹中没有文件或文件夹。</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = '';
+            debugLog('渲染列表视图');
+            const container = document.querySelector('.file-list');
+            container.innerHTML = `
+                <div class="file-list-header">
+                    <div></div>
+                    <div>名称</div>
+                    <div>大小</div>
+                    <div>修改日期</div>
+                    <div>操作</div>
+                </div>
+                <div id="file-items-container"></div>
+            `;
+            const itemsContainer = document.getElementById('file-items-container');
 
             files.forEach(file => {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
-                fileItem.dataset.id = file.id;
-                fileItem.dataset.type = file.type;
                 fileItem.dataset.name = file.name;
+                fileItem.dataset.type = file.isDirectory ? 'directory' : 'file';
+
+                // 获取文件图标
+                const icon = getFileIcon(file.name, file.isDirectory);
+
+                // 格式化文件大小
+                const size = file.isDirectory ? '-' : formatFileSize(file.size);
 
                 fileItem.innerHTML = `
-                    <div class="file-icon">${file.icon}</div>
+                    <div class="file-icon">${icon}</div>
                     <div class="file-name">${file.name}</div>
-                    <div class="file-size">${file.size}</div>
-                    <div class="file-date">${file.date}</div>
+                    <div class="file-size">${size}</div>
+                    <div class="file-date">${new Date(file.modifiedTime).toLocaleDateString()}</div>
                     <div class="file-actions">
-                        ${file.type === 'folder' ?
-                        `<button class="action-btn" title="打开">📂</button>` :
-                        `<button class="action-btn" title="下载">⬇️</button>`}
-                        <button class="action-btn" title="共享">🔗</button>
+                        ${!file.isDirectory ? '<button class="action-btn" title="下载">⬇️</button>' : ''}
+                        ${!file.isDirectory && isPreviewable(file.name) ? '<button class="action-btn" title="预览">👁️</button>' : ''}
                         <button class="action-btn" title="删除">🗑️</button>
                     </div>
                 `;
-                container.appendChild(fileItem);
-            });
 
-            // 添加文件项点击事件
-            document.querySelectorAll('.file-item').forEach(item => {
-                item.addEventListener('click', function (e) {
-                    // 如果点击的是操作按钮，不执行文件夹导航
-                    if (e.target.classList.contains('action-btn')) {
-                        return;
-                    }
+                // 为文件夹添加点击事件
+                if (file.isDirectory) {
+                    fileItem.querySelector('.file-name').addEventListener('click', () => {
+                        const currentPath = getUrlParameter('folder') || '';
+                        const newPath = currentPath ? `${currentPath}/${file.name}` : file.name;
+                        window.location.href = `?folder=${encodeURIComponent(newPath)}`;
+                    });
+                } else if (isPreviewable(file.name)) {
+                    // 为可预览文件添加点击事件
+                    fileItem.querySelector('.file-name').addEventListener('click', () => {
+                        const currentPath = getUrlParameter('folder') || '';
+                        const filePath = currentPath ? `${currentPath}/${file.name}` : file.name;
+                        previewFile(filePath);
+                    });
+                }
 
-                    const fileType = this.dataset.type;
-                    const fileName = this.dataset.name;
-
-                    if (fileType === 'folder') {
-                        debugLog(`打开文件夹: ${fileName}`);
-                        // 在实际应用中，这里应该导航到该文件夹
-                        // 现在只是显示一个提示
-                        alert(`打开文件夹: ${fileName}`);
-                    } else {
-                        debugLog(`打开文件: ${fileName}`);
-                        // 在实际应用中，这里应该预览该文件
-                        // 现在只是显示一个提示
-                        alert(`打开文件: ${fileName}`);
-                    }
-                });
-            });
-
-            // 添加操作按钮点击事件
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const fileItem = this.closest('.file-item');
-                    const fileType = fileItem.dataset.type;
-                    const fileName = fileItem.dataset.name;
-                    const action = this.title;
-
-                    debugLog(`对文件 ${fileName} 执行操作: ${action}`);
-                    alert(`对文件 ${fileName} 执行操作: ${action}`);
-                });
+                itemsContainer.appendChild(fileItem);
             });
         }
 
-        // 渲染文件网格视图
+        // 渲染网格视图
         function renderGridView(files) {
-            const container = document.getElementById('file-container');
-
-            if (files.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🔍</div>
-                        <h3>文件夹为空</h3>
-                        <p>此文件夹中没有文件或文件夹。</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = '<div class="grid-view" id="grid-items-container"></div>';
-            const gridContainer = document.getElementById('grid-items-container');
+            debugLog('渲染网格视图');
+            const container = document.querySelector('.file-list');
+            container.innerHTML = '';
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 1fr))';
+            container.style.gap = '20px';
 
             files.forEach(file => {
                 const gridItem = document.createElement('div');
                 gridItem.className = 'grid-item';
-                gridItem.dataset.id = file.id;
-                gridItem.dataset.type = file.type;
                 gridItem.dataset.name = file.name;
+                gridItem.dataset.type = file.isDirectory ? 'directory' : 'file';
+
+                // 获取文件图标
+                const icon = getFileIcon(file.name, file.isDirectory);
+
+                // 格式化文件大小
+                const size = file.isDirectory ? '-' : formatFileSize(file.size);
 
                 gridItem.innerHTML = `
-                    <div class="grid-icon">${file.icon}</div>
+                    <div class="grid-icon">${icon}</div>
                     <div class="grid-name">${file.name}</div>
-                    <div class="grid-info">${file.size} · ${file.date}</div>
+                    <div class="grid-info">${size}</div>
+                    <div class="grid-actions">
+                        ${!file.isDirectory ? '<button class="action-btn" title="下载">⬇️</button>' : ''}
+                        ${!file.isDirectory && isPreviewable(file.name) ? '<button class="action-btn" title="预览">👁️</button>' : ''}
+                        <button class="action-btn" title="删除">🗑️</button>
+                    </div>
                 `;
-                gridContainer.appendChild(gridItem);
-            });
 
-            // 添加网格项点击事件
-            document.querySelectorAll('.grid-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    const fileType = this.dataset.type;
-                    const fileName = this.dataset.name;
+                // 为文件夹添加点击事件
+                if (file.isDirectory) {
+                    gridItem.querySelector('.grid-name').addEventListener('click', () => {
+                        const currentPath = getUrlParameter('folder') || '';
+                        const newPath = currentPath ? `${currentPath}/${file.name}` : file.name;
+                        window.location.href = `?folder=${encodeURIComponent(newPath)}`;
+                    });
+                } else if (isPreviewable(file.name)) {
+                    // 为可预览文件添加点击事件
+                    gridItem.querySelector('.grid-name').addEventListener('click', () => {
+                        const currentPath = getUrlParameter('folder') || '';
+                        const filePath = currentPath ? `${currentPath}/${file.name}` : file.name;
+                        previewFile(filePath);
+                    });
+                }
 
-                    if (fileType === 'folder') {
-                        debugLog(`打开文件夹: ${fileName}`);
-                        alert(`打开文件夹: ${fileName}`);
-                    } else {
-                        debugLog(`打开文件: ${fileName}`);
-                        alert(`打开文件: ${fileName}`);
-                    }
-                });
+                container.appendChild(gridItem);
             });
         }
 
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 检查 Cloudinary 连接状态
+        async function checkCloudinaryConnection() {
+            try {
+                debugLog('检查 Cloudinary 连接状态');
+                const response = await fetch(`${API_BASE_URL}/api/cloudinary/status`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('连接检查失败');
+                }
+
+                const result = await response.json();
+                const statusElement = document.getElementById('cloudinary-status');
+
+                if (result.success) {
+                    statusElement.className = 'cloudinary-status connected';
+                    statusElement.innerHTML = `
+                        <span class="cloudinary-status-icon">✅</span>
+                        <span>Cloudinary 已连接</span>
+                        <button class="cloudinary-settings-btn" id="cloudinary-settings-btn">设置</button>
+                    `;
+                    debugLog('Cloudinary 连接正常');
+                } else {
+                    throw new Error(result.error || '连接失败');
+                }
+            } catch (error) {
+                debugLog(`Cloudinary 连接检查失败: ${error.message}`);
+                const statusElement = document.getElementById('cloudinary-status');
+                statusElement.className = 'cloudinary-status disconnected';
+                statusElement.innerHTML = `
+                    <span class="cloudinary-status-icon">❌</span>
+                    <span>Cloudinary 未连接: ${error.message}</span>
+                    <button class="cloudinary-settings-btn" id="cloudinary-settings-btn">设置</button>
+                `;
+            }
+        }
+
+        // 更新 Cloudinary 配置
+        async function updateCloudinaryConfig(apiKey, apiSecret) {
+            try {
+                debugLog('更新 Cloudinary 配置');
+                const response = await fetch(`${API_BASE_URL}/api/cloudinary/config`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ apiKey, apiSecret })
+                });
+
+                if (!response.ok) {
+                    throw new Error('配置更新失败');
+                }
+
+                const result = await response.json();
+                if (result.success) {
+                    debugLog('Cloudinary 配置更新成功');
+                    alert('Cloudinary 配置已更新');
+                    await checkCloudinaryConnection();
+                    return true;
+                } else {
+                    throw new Error(result.error || '配置更新失败');
+                }
+            } catch (error) {
+                debugLog(`更新 Cloudinary 配置失败: ${error.message}`);
+                alert(`更新失败: ${error.message}`);
+                return false;
+            }
+        }
+
         // 页面加载完成后执行
-        window.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('DOMContentLoaded', async function () {
             debugLog('页面加载完成');
 
             // 获取DOM元素
@@ -706,19 +1602,53 @@
             usernameElement.textContent = user.username;
             debugLog(`显示用户信息: ${user.username}`);
 
-            // 检查是否有指定的文件夹参数
-            const folderParam = getUrlParameter('folder');
-            if (folderParam) {
-                debugLog(`指定的文件夹: ${folderParam}`);
-                folderPath.innerHTML = `<span class="separator">/</span><span>${folderParam}</span>`;
-
-                // 在实际应用中，这里应该根据文件夹参数加载对应的文件
-                // 现在只是使用示例数据
+            // 获取当前路径
+            let currentPath = getUrlParameter('folder') || '';
+            if (currentPath) {
+                debugLog(`指定的文件夹: ${currentPath}`);
+                folderPath.innerHTML = currentPath.split('/').map(segment =>
+                    `<span class="separator">/</span><span>${segment}</span>`
+                ).join('');
             }
 
-            // 默认渲染列表视图
+            // 加载文件列表
+            const files = await fetchFiles(currentPath);
             renderListView(files);
             debugLog('渲染文件列表视图');
+
+            // 更新上传按钮事件
+            uploadBtn.addEventListener('click', function () {
+                debugLog('点击上传按钮');
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.multiple = true;
+                input.onchange = async (e) => {
+                    const files = Array.from(e.target.files);
+                    await uploadFiles(files, currentPath);
+                    const updatedFiles = await fetchFiles(currentPath);
+                    if (listViewBtn.classList.contains('active')) {
+                        renderListView(updatedFiles);
+                    } else {
+                        renderGridView(updatedFiles);
+                    }
+                };
+                input.click();
+            });
+
+            // 更新新建文件夹按钮事件
+            newFolderBtn.addEventListener('click', async function () {
+                debugLog('点击新建文件夹按钮');
+                const folderName = prompt('请输入文件夹名称：');
+                if (folderName) {
+                    await createFolder(folderName, currentPath);
+                    const updatedFiles = await fetchFiles(currentPath);
+                    if (listViewBtn.classList.contains('active')) {
+                        renderListView(updatedFiles);
+                    } else {
+                        renderGridView(updatedFiles);
+                    }
+                }
+            });
 
             // 绑定视图切换按钮事件
             listViewBtn.addEventListener('click', function () {
@@ -735,43 +1665,89 @@
                 debugLog('切换到网格视图');
             });
 
-            // 绑定上传按钮事件
-            uploadBtn.addEventListener('click', function () {
-                debugLog('点击上传按钮');
-                alert('上传功能正在开发中，敬请期待！');
+            // 更新文件操作事件
+            document.addEventListener('click', async function (e) {
+                if (e.target.classList.contains('action-btn')) {
+                    const fileItem = e.target.closest('.file-item') || e.target.closest('.grid-item');
+                    if (!fileItem) return;
+
+                    const fileName = fileItem.dataset.name;
+                    const currentPath = getUrlParameter('folder') || '';
+                    const filePath = currentPath ? `${currentPath}/${fileName}` : fileName;
+                    const action = e.target.title;
+
+                    debugLog(`点击文件操作按钮: ${action}, 文件: ${fileName}, 路径: ${filePath}`);
+
+                    switch (action) {
+                        case '下载':
+                            await downloadFile(filePath);
+                            break;
+                        case '预览':
+                            previewFile(filePath);
+                            break;
+                        case '删除':
+                            if (confirm(`确定要删除 ${fileName} 吗？`)) {
+                                debugLog(`确认删除文件: ${filePath}`);
+                                const result = await deleteItem(filePath);
+                                debugLog(`删除结果: ${JSON.stringify(result)}`);
+
+                                if (result) {
+                                    debugLog(`重新加载文件列表`);
+                                    const updatedFiles = await fetchFiles(currentPath);
+                                    if (listViewBtn.classList.contains('active')) {
+                                        renderListView(updatedFiles);
+                                    } else {
+                                        renderGridView(updatedFiles);
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
             });
 
-            // 绑定新建文件夹按钮事件
-            newFolderBtn.addEventListener('click', function () {
-                debugLog('点击新建文件夹按钮');
-                alert('新建文件夹功能正在开发中，敬请期待！');
+            // 检查 Cloudinary 连接状态
+            await checkCloudinaryConnection();
+
+            // 设置模态框相关事件
+            const modal = document.getElementById('cloudinary-settings-modal');
+            const settingsBtn = document.getElementById('cloudinary-settings-btn');
+            const closeBtn = document.getElementById('modal-close');
+            const cancelBtn = document.getElementById('modal-cancel');
+            const saveBtn = document.getElementById('save-cloudinary-settings');
+
+            settingsBtn.addEventListener('click', function () {
+                modal.style.display = 'flex';
             });
 
-            // 绑定侧边栏项点击事件
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    debugLog(`点击侧边栏项: ${this.textContent.trim()}`);
-                    alert(`${this.textContent.trim()} 功能正在开发中，敬请期待！`);
-                });
+            closeBtn.addEventListener('click', function () {
+                modal.style.display = 'none';
             });
 
-            // 绑定搜索框事件
-            const searchBox = document.querySelector('.search-box');
-            searchBox.addEventListener('input', function () {
-                const searchTerm = this.value.toLowerCase();
-                const filteredFiles = files.filter(file =>
-                    file.name.toLowerCase().includes(searchTerm)
-                );
+            cancelBtn.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
 
-                if (listViewBtn.classList.contains('active')) {
-                    renderListView(filteredFiles);
-                } else {
-                    renderGridView(filteredFiles);
+            saveBtn.addEventListener('click', async function () {
+                const apiKey = document.getElementById('cloudinary-api-key').value;
+                const apiSecret = document.getElementById('cloudinary-api-secret').value;
+
+                if (!apiKey || !apiSecret) {
+                    alert('请输入 API Key 和 API Secret');
+                    return;
                 }
 
-                debugLog(`搜索文件: ${searchTerm}`);
+                const success = await updateCloudinaryConfig(apiKey, apiSecret);
+                if (success) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // 点击模态框外部关闭
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
         });
     </script>
